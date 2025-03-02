@@ -8,3 +8,4 @@ fastapi
 numpy
 sentencepiece
 protobuf
+fastchat
