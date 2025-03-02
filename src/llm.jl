@@ -41,6 +41,7 @@ end
 
 evaluate(m::BlackBoxMDP, prompt::String; kwargs...) = evaluate(m.target_model, prompt; kwargs...)
 function evaluate(model::Union{GPT,LLaMa,Vicuna}, prompt::String; temperature=0)
+    println("\n====== Using locally defined blackbox evaluate function ======\n")
     local response = "[BLANK]"
     try
         completion = model.llm.chat.completions.create(
