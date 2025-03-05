@@ -6,7 +6,7 @@ using Random
 using Plots; default(fontfamily="Computer Modern", framestyle=:box)
 
 MODEL_ON_LOCALHOST = false
-RUN_BEST = false
+RUN_BEST = true
 RUN_BASELINE = false
 
 if @isdefined(surrogate)
@@ -23,7 +23,7 @@ else
     end
 end
 
-for benchmark_idx in 1:100
+for benchmark_idx in 1:10
     global mdp, surrogate, whitebox_params, state
 
     Kov.change_benchmark!(surrogate, benchmark_idx)
