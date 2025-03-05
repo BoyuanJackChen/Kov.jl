@@ -23,7 +23,7 @@ else
     end
 end
 
-for benchmark_idx in 1:5
+for benchmark_idx in 1:100
     global mdp, surrogate, whitebox_params, state
 
     Kov.change_benchmark!(surrogate, benchmark_idx)

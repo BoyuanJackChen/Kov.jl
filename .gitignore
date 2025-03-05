@@ -1,7 +1,6 @@
 Manifest.toml
-data/results
+# data/results
 losses.png
-python/gcg/__pycache__
-*.bson
+**__pycache__
+# *.bson
 server/*.log
-scratch/
