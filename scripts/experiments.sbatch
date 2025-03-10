@@ -7,7 +7,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --gres=gpu:a100:1
 #SBATCH --time=71:59:59
-#SBATCH --mem=50GB
+#SBATCH --mem=80GB
 #SBATCH --job-name=exp
 
 module purge

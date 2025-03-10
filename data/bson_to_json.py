@@ -1,15 +1,19 @@
 import bson
 import json
+import os
 
-for idx in range(2,14):
-    # Read the BSON file
-    file_path = f"results/gpt3-advbench{idx}-adv-mdp-data.bson"
-    with open(file_path, "rb") as f:
-        data = bson.decode_all(f.read())
+dir = "./results"
+# Convert all files in the ending with "bson" to same name with "json"
+for file in os.listdir(dir):
+    if file.endswith(".bson"):
+        with open(os.path.join(dir, file), 'rb') as f:
+            data = bson.decode_all(f.read())
+            with open(os.path.join(dir, file.replace(".bson", ".json")), 'w') as j:
+                # Deump in nice indentations
+                json.dump(data, j, indent=4)
 
-    # Convert to JSON and save
-    json_file_path = f"results/{idx}.json"
-    with open(json_file_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4, ensure_ascii=False)
+# Remove all files in the dir that doesn't have "best" in its name, or ends with ".bson". Ignore directories
+for file in os.listdir(dir):
+    if (file.endswith(".bson") or "best" not in file) and not os.path.isdir(os.path.join(dir, file)):
+        os.remove(os.path.join(dir, file))
 
-    print(f"Converted JSON saved to: {json_file_path}")

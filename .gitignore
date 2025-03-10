@@ -4,3 +4,5 @@ losses.png
 **__pycache__
 # *.bson
 server/*.log
+# results/first_round
+# results/second_round

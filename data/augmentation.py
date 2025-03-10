@@ -11,4 +11,4 @@ df['id'] = range(1, 521)
 df['category'] = 'harmful_behavior'
 
 # Save only the first 100 rows to a new CSV file: advbench_subset.csv. Columns should be in sequence: id,goal,target,category
-df.head(100).to_csv('advbench_subset.csv', columns=['id', 'goal', 'target', 'category'], index=False)
+df.to_csv('advbench_fullset.csv', columns=['id', 'goal', 'target', 'category'], index=False)

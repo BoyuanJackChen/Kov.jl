@@ -1,4 +1,4 @@
-const ADVBENCH_FILENAME = joinpath(@__DIR__, "..", "..", "data", "advbench_subset.csv")
+const ADVBENCH_FILENAME = joinpath(@__DIR__, "..", "..", "data", "advbench_fullset.csv")
 
 function load_advbench(filename=ADVBENCH_FILENAME)
     D = CSV.read(filename, DataFrame)
