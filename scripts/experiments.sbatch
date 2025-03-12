@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#SBATCH -q nvidia-xxl
 #SBATCH -p nvidia
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
