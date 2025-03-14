@@ -6,7 +6,7 @@ using Random
 using Plots; default(fontfamily="Computer Modern", framestyle=:box)
 
 MODEL_ON_LOCALHOST = false
-RUN_BEST = true
+RUN_BEST = false
 RUN_BASELINE = false
 
 if @isdefined(surrogate)
@@ -23,7 +23,7 @@ else
     end
 end
 
-for benchmark_idx in 1:520
+for benchmark_idx in 11:520
     @info "Starting iteration $benchmark_idx"
     try
         global mdp, surrogate, whitebox_params, state
@@ -66,9 +66,9 @@ for benchmark_idx in 1:520
                 best_trials = 1
                 R_best, data_best = Kov.run_baseline(mdp, best_trials, suffix)
                 mods_best = Kov.compute_moderation(mdp)
-                BSON.@save "$(params.name)-best-scores.bson" R_best
-                BSON.@save "$(params.name)-best-data.bson" data_best
-                BSON.@save "$(params.name)-best-moderation.bson" mods_best
+                BSON.@save "./results/$(params.name)-best-scores.bson" R_best
+                BSON.@save "./results/$(params.name)-best-data.bson" data_best
+                BSON.@save "./results/$(params.name)-best-moderation.bson" mods_best
                 mod_rate_best = Kov.avg_moderated(mods_best)
                 mod_score_best = Kov.avg_moderated_score(mods_best)
                 @info "Failed moderation rate (best): $mod_rate_best"
@@ -77,9 +77,9 @@ for benchmark_idx in 1:520
         else
             R_baseline, data_baseline = run_baseline(mdp, solver.n_iterations)
             mods_baseline = compute_moderation(mdp)
-            BSON.@save "$(params.name)-baseline-scores.bson" R_baseline
-            BSON.@save "$(params.name)-baseline-data.bson" data_baseline
-            BSON.@save "$(params.name)-baseline-moderation.bson" mods_baseline
+            BSON.@save "./results/$(params.name)-baseline-scores.bson" R_baseline
+            BSON.@save "./results/$(params.name)-baseline-data.bson" data_baseline
+            BSON.@save "./results/$(params.name)-baseline-moderation.bson" mods_baseline
             mod_rate_baseline = Kov.avg_moderated(mods_baseline)
             mod_score_baseline = Kov.avg_moderated_score(mods_baseline)
             @info "Failed moderation rate (baseline): $mod_rate_baseline"
