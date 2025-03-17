@@ -9,6 +9,14 @@ MODEL_ON_LOCALHOST = false
 RUN_BEST = false
 RUN_BASELINE = false
 
+# Use command-line arguments instead of manual input
+if length(ARGS) < 2
+    println("Usage: julia experiments.jl <start_idx> <end_idx>")
+    exit(1)
+end
+start_idx = parse(Int, ARGS[1])
+end_idx = parse(Int, ARGS[2])
+
 if @isdefined(surrogate)
     surrogate.params.seed = 0 # reset seed
 else
@@ -23,7 +31,7 @@ else
     end
 end
 
-for benchmark_idx in 11:520
+for benchmark_idx in start_idx:end_idx
     @info "Starting iteration $benchmark_idx"
     try
         global mdp, surrogate, whitebox_params, state
@@ -38,10 +46,7 @@ for benchmark_idx in 11:520
         ########################################
         ## Change this for different models
         ########################################
-        # params = (name="gpt3-advbench$benchmark_idx", is_aligned=true, target_model=gpt_model("gpt-3.5-turbo-0125"))
         params = (name="gpt3-advbench$benchmark_idx", is_aligned=false, target_model=gpt_model("gpt-3.5-turbo-0125"))
-        # params = (name="gpt4-advbench$benchmark_idx", is_aligned=false, target_model=gpt_model("gpt-4-1106-preview"))
-        # params = (name="vicuna-7b-advbench$benchmark_idx", is_aligned=false, target_model=vicuna_model("vicuna-7b-v1.5"))
 
         surrogate.params.flipped = params.is_aligned
         prompt = whitebox_params.prompt

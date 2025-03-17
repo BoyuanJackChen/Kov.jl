@@ -8,7 +8,13 @@
 #SBATCH --gres=gpu:a100:1
 #SBATCH --time=71:59:59
 #SBATCH --mem=80GB
-#SBATCH --job-name=exp
+
+# Define start and end indices
+START_IDX=301
+END_IDX=400
+
+# Set job name dynamically
+#SBATCH --job-name=${START_IDX}-${END_IDX}
 
 module purge
 
@@ -18,5 +24,8 @@ source ~/.bashrc
 # Activate conda environment
 conda activate kovjl
 
-# Call Julia script
-julia experiments.jl
+# Print variables for debugging
+echo "Running experiment with benchmark indices from $START_IDX to $END_IDX"
+
+# Call Julia script with arguments
+julia experiments.jl $START_IDX $END_IDX

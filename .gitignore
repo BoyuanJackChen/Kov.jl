@@ -7,3 +7,4 @@ server/*.log
 # results/first_round
 # results/second_round
 results
+**.out
