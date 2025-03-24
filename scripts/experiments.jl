@@ -44,7 +44,7 @@ for benchmark_idx in start_idx:end_idx
         @info "Benchmark index $benchmark_idx: $(surrogate.params.prompt)"
 
         ########################################
-        ## Change this for different models
+        ## Change this for different blackbox models
         ########################################
         params = (name="gpt3-advbench$benchmark_idx", is_aligned=false, target_model=gpt_model("gpt-3.5-turbo-0125"))
 
@@ -56,8 +56,8 @@ for benchmark_idx in start_idx:end_idx
 
         Kov.WhiteBox.clear!()
 
-        if !RUN_BASELINE
-            policy = solve(mdp.params.solver, mdp)
+        if !RUN_BASELINE  # BASELINE here means GCG, etc. 
+            policy = solve(mdp.params.solver, mdp)   # Solving MCTS. "solve" here is a library function
             @time a, info = action_info(policy, s0)
             suffix = select_action(mdp)
             printstyled("[BEST ACTION]: $suffix\n", color=:cyan)
@@ -69,7 +69,7 @@ for benchmark_idx in start_idx:end_idx
 
             if RUN_BEST
                 best_trials = 1
-                R_best, data_best = Kov.run_baseline(mdp, best_trials, suffix)
+                R_best, data_best = Kov.run_baseline(mdp, best_trials, suffix)  # Only 1 iteration
                 mods_best = Kov.compute_moderation(mdp)
                 BSON.@save "./results/$(params.name)-best-scores.bson" R_best
                 BSON.@save "./results/$(params.name)-best-data.bson" data_best
@@ -80,7 +80,7 @@ for benchmark_idx in start_idx:end_idx
                 @info "Average moderation score (best): $mod_score_best"
             end
         else
-            R_baseline, data_baseline = run_baseline(mdp, solver.n_iterations)
+            R_baseline, data_baseline = run_baseline(mdp, solver.n_iterations)  # 7 iterations by default
             mods_baseline = compute_moderation(mdp)
             BSON.@save "./results/$(params.name)-baseline-scores.bson" R_baseline
             BSON.@save "./results/$(params.name)-baseline-data.bson" data_baseline

@@ -77,6 +77,7 @@ end
     use_arca = false
     verbose = true
     verbose_critical = true
+    load_in_4bit = false
 end
 
 WhiteBoxParams(model_path::String; kwargs...) = WhiteBoxParams(; model_path, kwargs...)

@@ -70,14 +70,19 @@ function completion(model::GPT, prompt::String; temperature=0.7, n=1)
     return response
 end
 
+### Debug this!!!!!!!
 moderation(content::SubString) = moderation(string(content))
 function moderation(content::String)   # moderation basically means generation with safety guidelines
+    # Log "moderation is running"
+    println("\n====== Using locally defined moderation function ======\n")
     model = gpt_model("text-moderation-latest")
     mod = model.llm.moderations.create(
         model=model.name,
         input=content,
     )
     response = mod.results[1]
+    println("\nContent is:\n$content")
+    println("\nModeration response is:\n$response")
     return Dict(response.categories), Dict(response.category_scores)
 end
 
