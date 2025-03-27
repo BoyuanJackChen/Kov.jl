@@ -50,16 +50,16 @@ for benchmark_idx in start_idx:end_idx
 
         surrogate.params.flipped = params.is_aligned
         prompt = whitebox_params.prompt
-        mdp = BlackBoxMDP(params.target_model, surrogate, prompt)
+        mdp = BlackBoxMDP(params.target_model, surrogate, prompt)  # Initialize MDP
         mdp.flipped = params.is_aligned
         s0 = rand(initialstate(mdp))
 
         Kov.WhiteBox.clear!()
 
         if !RUN_BASELINE  # BASELINE here means GCG, etc. 
-            policy = solve(mdp.params.solver, mdp)   # Solving MCTS. "solve" here is a library function
+            policy = solve(mdp.params.solver, mdp)   # Solving MCTS, from POMDPTools
             @time a, info = action_info(policy, s0)
-            suffix = select_action(mdp)
+            suffix = select_action(mdp)  # Select the best action (for the last step), from POMDPTools
             printstyled("[BEST ACTION]: $suffix\n", color=:cyan)
 
             name = string(params.name, "-", params.is_aligned ? "aligned" : "adv")

@@ -142,8 +142,9 @@ compute_moderation(mdp::BlackBoxMDP) = compute_moderation(mdp.data)
 function compute_moderation(data::Vector)
     mods = []
     for (i,sp) in enumerate(data)
-        @info "Computing moderation: $i/$(length(data))"
-        push!(mods, moderation(sp.response))
+        moderation_score = moderation(sp.response)
+        push!(mods, moderation_score)
+        @info "Computing moderation: $i/$(length(data)); score is $moderation_score"
     end
     return mods
 end

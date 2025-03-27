@@ -4,10 +4,18 @@ using BSON
 using Random
 using Plots; default(fontfamily="Computer Modern", framestyle=:box)
 
+# Use command-line arguments instead of manual input
+if length(ARGS) < 2
+    println("Usage: julia experiments.jl <start_idx> <end_idx>")
+    exit(1)
+end
+start_idx = parse(Int, ARGS[1])
+end_idx = parse(Int, ARGS[2])
+
 if @isdefined(surrogate)
     surrogate.params.seed = 0
 else
-    model_path = expanduser("~/vicuna/vicuna-7b-v1.5")
+    model_path = expanduser("lmsys/vicuna-7b-v1.5")
 
     whitebox_params = WhiteBoxParams(;
         model_path,
@@ -20,7 +28,7 @@ else
     surrogate = WhiteBoxMDP(whitebox_params; device_map=nothing)
 end
 
-for benchmark_idx in 1:5
+for benchmark_idx in start_idx:end_idx
     global surrogate, whitebox_params, final_state, final_suffix
     @info "Benchmark index $benchmark_idx (GCG)"
 
